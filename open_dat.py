@@ -4,21 +4,22 @@
 @Author  ：fangpf
 @Date    ：2022/1/4 14:30 
 """
+import glob
 import struct
 
 import h5py
 import scipy.io as scio
 
 
-TEST_DAT_FILE = 'F:/AI/dataset/NAIC/train/train_feature/00012531.dat'
+TEST_DAT_FILE = 'data/train/train_feature/00005879.dat'
 
 import numpy as np
 
 
 
 def read_dat(path):
-    img = np.fromfile(path, dtype='<f4')[None, None]
-    print(img)
+    img = np.fromfile(path, dtype=np.float32)
+    print(img.shape)
 
 def demo():
     # plane = scio.loadmat(TEST_MAT_FILE)
