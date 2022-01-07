@@ -47,6 +47,7 @@ class FeatureDataset(Dataset):
         label = self.train_labels[index]
         image = self.train_images[index]
         image = np.fromfile(image, dtype='<f4')[None, None]
+        return label, image
 
     def __len__(self):
         return
