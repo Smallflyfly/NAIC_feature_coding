@@ -17,9 +17,9 @@ TRAIN_LIST = 'data/train/train_list.txt'
 
 
 class FeatureDataset(Dataset):
-    def __init__(self, training=True):
+    def __init__(self, training=True, class_num=15000):
         super(FeatureDataset, self).__init__()
-        self.class_num = 15000
+        self.class_num = class_num
         self.training = training
         self.transforms = transforms.Compose([
             transforms.ToTensor()

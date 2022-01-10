@@ -27,8 +27,7 @@ BATCH_SIZE = args.b
 EPOCHS = args.e
 
 def train():
-    dataset = FeatureDataset()
-    print(dataset.class_num)
+    dataset = FeatureDataset(class_num=15000)
     train_loader = DataLoader(dataset=dataset, batch_size=BATCH_SIZE, shuffle=True)
     # val_loader()
     model= MLP(num_classes=dataset.class_num)
