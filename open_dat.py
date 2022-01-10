@@ -12,7 +12,7 @@ import h5py
 import scipy.io as scio
 
 
-TEST_DAT_FILE = 'data/train/train_feature/703649717.dat'
+TEST_DAT_FILE = 'data/train/train_feature/00005879.dat'
 
 import numpy as np
 

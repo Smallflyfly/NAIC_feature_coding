@@ -6,9 +6,13 @@
 """
 from torchvision.models import resnet50
 
+from model.mlp import MLP
+
 
 def build_model(model = 'resnet50'):
 
     if model == 'resnent50':
         return resnet50()
 
+    elif model == 'mlp':
+        return MLP(depth=5)

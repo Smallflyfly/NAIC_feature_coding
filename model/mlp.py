@@ -9,24 +9,34 @@ import torch.nn as nn
 
 
 class MLP(nn.Module):
-    def __init__(self):
+    def __init__(self, depth=3, num_classes=100, training=True):
         super().__init__()
         self.feat_channels = 2048
         self.out_feature = 2048
-        self.depth = 3
+        self.depth = depth
+        self.num_classes = num_classes
+        self.training = training
 
         self.squeeze = Squeeze()
         self.mlp_blocks = nn.Sequential(
             *[MLPBlock(in_features=self.feat_channels, bn=True, act=nn.ReLU if idx != self.depth-1 else None) for idx in range(self.depth-1)],
-            MLPBlock(in_features=self.feat_channels, out_features=self.out_feature, bn=True, act=None)
+            MLPBlock(in_features=self.feat_channels, out_features=self.out_feature, bn=True, act=nn.ReLU)
         )
-        self.unsqueeze = Unsqueeze()
+        self.cls = nn.Linear(self.out_feature, self.num_classes)
+
+        for m in self.modules():
+            if isinstance(m, nn.Conv2d):
+                nn.init.kaiming_normal_(m.weight, mode='fan_out', nonlinearity='relu')
+            elif isinstance(m, (nn.BatchNorm2d, nn.GroupNorm)):
+                nn.init.constant_(m.weight, 1)
+                nn.init.constant_(m.bias, 0)
 
     def forward(self, x):
         x = self.squeeze(x)
         x = self.mlp_blocks(x)
-        x = self.unsqueeze()
-
+        if self.training:
+            x = self.cls(x)
+        return x
 
 class Squeeze(nn.Module):
     def __init__(self):
